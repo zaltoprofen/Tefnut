@@ -1,0 +1,14 @@
+{
+  "appid": "<your yahoo api appid>",
+  "ifttt_key": "<your ifttt secret key>",
+  "venues": [
+    {
+      "name": "Tokyo Institute of Technology, Ookayama Campus",
+      "coordinate": {"longitude": 139.68353, "latitude": 35.605123}
+    },
+    {
+      "name": "Suido-bashi st.",
+      "coordinate": {"longitude": 139.753653, "latitude": 35.70203}
+    }
+  ]
+}
