@@ -40,23 +40,3 @@ class ApiClapper(object):
                     'rainfall': val['Rainfall']}
         except KeyError:
             return None
-
-class IFTTTClapper(object):
-    _endpoint = 'https://maker.ifttt.com/trigger/{event}/with/key/{ifttt_key}'
-    def __init__(self, ifttt_key):
-        self._key = ifttt_key
-
-    def clap(self, event, value1=None, value2=None, value3=None, clapping=urlopen):
-        log.debug('clapping IFTTT: event: %s, values=(%s, %s, %s)',
-                  event, value1, value2, value3)
-        url = self._endpoint.format(event=event, ifttt_key=self._key)
-        payload_obj = {}
-        if value1 is not None:
-            payload_obj['value1'] = value1
-        if value2 is not None:
-            payload_obj['value2'] = value2
-        if value3 is not None:
-            payload_obj['value3'] = value3
-        payload = json.dumps(payload_obj)
-        req = Request(url, payload.encode('utf-8'), {'Content-Type': 'application/json'})
-        return clapping(req).status == 200

@@ -1,4 +1,4 @@
-from clappers import ApiClapper, Coordinate, IFTTTClapper
+from clapper import ApiClapper, Coordinate
 from datetime import timedelta
 from chrono import Chrono
 import json
@@ -33,15 +33,11 @@ class Tefnut(object):
                 self.fire(name=n, weather=cw)
             self.prev[n] = cw
 
-def constuct_clap_ifttt(ifttt_key):
-    clapper = IFTTTClapper(ifttt_key)
-    def clap_ifttt(name, weather):
-        if weather['rainfall'] != 0:
-            event = 'begin_raining'
-        else:
-            event = 'stop_raining'
-        clapper.clap(event, name)
-    return clap_ifttt
+def load_handler(module_name, class_name, cons_args=[], cons_kwargs={}):
+    import importlib
+    module = importlib.import_module(module_name)
+    klazz = module.__getattribute__(class_name)
+    return klazz(*cons_args, **cons_kwargs)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
@@ -51,8 +47,9 @@ if __name__ == '__main__':
     def map_to_venue(obj):
         return obj['name'], Coordinate(**obj['coordinate'])
     venues = list(map(map_to_venue, conf['venues']))
-    ifttt_key = conf['ifttt_key']
     ac = ApiClapper(appid)
     t = Tefnut(ac, venues)
-    t.add_handler(constuct_clap_ifttt(ifttt_key))
+    for h in conf['handlers']:
+        hdlr = load_handler(**h)
+        t.add_handler(hdlr)
     ch = Chrono(t.trigger, timedelta(minutes=5), first_fire=True)
