@@ -36,7 +36,7 @@ class Tefnut(object):
 def constuct_clap_ifttt(ifttt_key):
     clapper = IFTTTClapper(ifttt_key)
     def clap_ifttt(name, weather):
-        if weather['rainfall'] == 0:
+        if weather['rainfall'] != 0:
             event = 'begin_raining'
         else:
             event = 'stop_raining'
