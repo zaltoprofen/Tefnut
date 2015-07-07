@@ -58,5 +58,5 @@ class IFTTTClapper(object):
         if value3 is not None:
             payload_obj['value3'] = value3
         payload = json.dumps(payload_obj)
-        req = Request(url, payload, {'Content-Type': 'application/json'})
+        req = Request(url, payload.encode('utf-8'), {'Content-Type': 'application/json'})
         return clapping(req).status == 200
