@@ -1,6 +1,20 @@
 {
-  "appid": "<your yahoo api appid>",
-  "ifttt_key": "<your ifttt secret key>",
+  "appid": "",
+  "handlers": [
+    {
+      "module_name": "handlers.ifttt",
+      "class_name": "construct_clap_ifttt",
+      "cons_kwargs": {"ifttt_key": ""}
+    },
+    {
+      "module_name": "handlers.slack",
+      "class_name": "LogicomaTefnut",
+      "cons_kwargs": {
+        "endpoint": "",
+        "payload": {"channel": "#proving-ground"}
+      }
+    }
+  ],
   "venues": [
     {
       "name": "Tokyo Institute of Technology, Ookayama Campus",
